@@ -9,14 +9,13 @@ The proposed framework aggregates predictor-specific transported distributions t
 The code is written in **R**. Please ensure you have the following packages installed:
 
 ``` r
-install.packages(c("parallel", "pracma", "fdapace"))
+install.packages(c("parallel", "pracma", "fdapace" , "fdadensity" , "quadprog"))
 ```
 
 ## 2. File Structure
 
 The repository is organized as follows:
-
-.
+```text
 ├── Real_data/               # Code for the real data application (Section 7)
 │   ├── Functions.R          # Helper functions for the real data analysis
 │   ├── MortFemale.RData     # Pre-processed mortality data (Female)
@@ -37,51 +36,52 @@ The repository is organized as follows:
 │       └── TableS2.R        # Supplementary results for multi-predictor GOT setting
 │
 └── README.md
+```
 
 ## 3. Usage & Reproduction
 
-Simulation Studies (Section 6)
+### Simulation Studies (Section 6)
 
 To reproduce the simulation tables reported in the paper, run the corresponding scripts in the `Simu/` folder.
 
 -   Table 1 (Single Predictor Estimation):
 
-``` r
+``` bash
 Rscript Simu/6.1/Table1.R
 ```
 
 -   Table 2 (Single Predictor Comparison):
 
-``` r
+``` bash
 Rscript Simu/6.1/Table2.R
 ```
 
 -   Table 3 (Multiple Predictors Estimation):
 
-``` r
+``` bash
 Rscript Simu/6.2/Table3.R
 ```
 
 -   Table 4 (Multiple Predictors Comparison):
 
-``` r
+``` bash
 Rscript Simu/6.2/Table4.R
 ```
 
-Real Data Application (Section 7)
+### Real Data Application (Section 7)
 
 To reproduce the mortality forecasting results (Table 5) and plots:
 
-``` r
+``` bash
 Rscript Real_data/Results_figure.R
 ```
 
 ## 4. Note on Parallel Computing
+The simulation scripts utilize the `parallel` package to accelerate Monte Carlo replications.
 
-The simulation scripts utilize the parallel package to accelerate Monte Carlo replications. Please adjust the number of cores in `makeCluster(20)` according to your machine
+* Configuration: Please adjust the number of cores in `makeCluster(20)` within the scripts according to your machine's specifications.
 
-By default, the scripts utilize FORK clusters (supported on Linux/macOS).
+* Default: By default, the scripts utilize `FORK` clusters (supported on Linux/macOS).
 
-Windows Users: Please modify the makeCluster command in the scripts to use PSOCK or run sequentially, as FORK is not supported on Windows.
+* Windows Users: Please modify the `makeCluster` command in the scripts to use `PSOCK` or run sequentially, as `FORK` is not supported on Windows.
 
-The code is configured to detect available cores, but explicitly requests multiple cores for efficiency.
